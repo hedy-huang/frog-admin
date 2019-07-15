@@ -4,7 +4,7 @@
 		<div id="icon-container">
 			<div v-for="i in iconList" @click="doCopyCode(i)">
 				<div>
-					<fr-icon :icon="i"/>
+					<fr-icon size="large" :icon="i"/>
 				</div>
 				<div @click.stop="doCopyName(i)" id="icon-name">
 					<span>{{i}}</span>
@@ -85,7 +85,8 @@
 					padding-top: 5px;
 					padding-bottom: 5px;
 					vertical-align: middle;
-					span{
+
+					span {
 					}
 				}
 
@@ -94,6 +95,7 @@
 					width: 100%;
 
 					&:hover {
+						border-radius: 4px;
 						box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
 						cursor: pointer;
 					}
@@ -104,11 +106,7 @@
 				}
 
 
-				.fr-icon {
-					width: 50px;
-					height: 50px;
-					padding: 10px;
-				}
+
 			}
 		}
 	}

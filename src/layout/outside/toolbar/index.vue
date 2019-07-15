@@ -25,6 +25,8 @@
 </script>
 
 <style lang="scss" scoped>
+	@import "../../../style/variables";
+
 	#toolbar {
 		height: var(--toolbar-height);
 		display: inline-flex;

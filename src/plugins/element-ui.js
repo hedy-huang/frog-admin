@@ -19,6 +19,13 @@ import {
 	RadioGroup,
 	Radio,
 	Pagination,
+	Input,
+	Card,
+	DatePicker,
+	TimePicker,
+	Select,
+	Option,
+	Dialog,
 	Scrollbar
 } from 'element-ui'
 
@@ -34,6 +41,14 @@ Vue.use(Radio);
 Vue.use(RadioGroup);
 Vue.use(Pagination);
 Vue.use(Scrollbar);
+Vue.use(Input);
+Vue.use(Card);
+Vue.use(DatePicker);
+Vue.use(TimePicker);
+Vue.use(Select);
+Vue.use(Option);
+Vue.use(Dialog);
+
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

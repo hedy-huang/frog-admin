@@ -28,9 +28,12 @@
 </script>
 
 <style lang="scss" scoped>
+	@import "../../../style/variables";
+
 	#tipbar {
-		width: var(--tipbar-width);
-		background-color: var(--tipbar-bgc);
+		width: $tipbar-width;
+		background-color: #dddddd;
+		white-space: normal;
 		position: fixed;
 		height: 100vh;
 		right: 0;
@@ -38,7 +41,7 @@
 		z-index: 900;
 
 		&.tipbar-hide {
-			right: calc(0px - var(--tipbar-width));
+			right: calc(0px - #{$tipbar-width});
 		}
 
 		#tipbar-trigger {

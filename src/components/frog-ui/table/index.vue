@@ -1,85 +1,57 @@
 <template>
-	<div class="fr-table" v-loading="!data" :class="{'fr-table-loading':!data}">
-		<el-table class="fr-table-body" :border="border" v-if="data" ref="elTable"
-							:data="data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize)"
-							:stripe="stripe" :fit="fit" :show-header="showHeader"
-							:highlight-current-row="highlightCurrentRow" :max-height="maxHeight"
-							@selection-change="handleSelectionChange">
-			<el-table-column v-if="selection" type="selection"/>
-			<el-table-column v-if="index" type="index"/>
-			<el-table-column v-if="fullLoad" v-for="(value,name) in data[0]" :key="name" :prop="name" :label="name"
-											 :width="isPureNumber(value)?'80':''"
-											 :show-overflow-tooltip="ellipsis"
-											 :align="align"/>
+	<div class="fr-table">
+		<el-table :data="showData" v-bind="$attrs">
+			<el-table-column v-if="index" type="index" align="center" :index="indexMethod"/>
+			<el-table-column v-for="column in columns" :prop="column" :label="column" :key="column"
+			                 :show-overflow-tooltip="$attrs['show-overflow-tooltip']"
+			                 :align="$attrs.alignment"/>
 			<slot/>
 		</el-table>
-		<el-pagination v-if="data" :total="data.length"
-									 :page-size.sync="pageSize"
-									 background
-									 style="float: right;"
-									 @current-change="current_change"/>
+		<el-pagination :total="data?data.length:0" @current-change="currentChange" :page-size.sync="pageSize"
+		               layout="prev,pager,next,jumper,total"/>
 	</div>
 </template>
 
 <script>
-	import {isPureNumber} from '@/utils/regexUtils'
-
 	export default {
 		name: "frTable",
 		props: {
+			index: Boolean,
 			data: {
 				required: true,
 			},
+			columns: {
+				type: Array,
+				default: () => {
+					return [];
+				}
+			},
 			pageSize: {
 				type: Number,
-				default: 15,
+				default: 20,
 			},
-			index: Boolean,
-			border: Boolean,
-			fullLoad: Boolean,
-			stripe: Boolean,
-			fit: {
-				type: Boolean,
-				default: true,
-			},
-			showHeader: {
-				type: Boolean,
-				default: true,
-			},
-			highlightCurrentRow: Boolean,
-			maxHeight: {
-				type: Number,
-			},
-			selection: Boolean,
-			backgroundColor: {
-				type: String,
-				default: 'white',
-			},
-			ellipsis: Boolean,
-			align: {
-				type: String,
-				default: 'left',
-			}
 		},
-
 		data() {
 			return {
 				currentPage: 1,
-				selectedRows: [],
+			}
+		},
+		computed: {
+			showData() {
+				return this.data ? this.data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize) : [];
 			}
 		},
 		methods: {
-			current_change(currentPage) {
+			currentChange(currentPage) {
 				this.currentPage = currentPage;
 			},
-			handleSelectionChange() {
-				this.selectedRows = this.$refs.elTable.store.states.selection
-			},
-			isPureNumber,
-		},
+			indexMethod(index) {
+				return index + 1 + (this.currentPage - 1) * this.pageSize;
+			}
+		}
 	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

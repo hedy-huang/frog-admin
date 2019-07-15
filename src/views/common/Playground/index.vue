@@ -1,16 +1,31 @@
 <template>
 	<section id="playground">
 		<h1>Playground</h1>
-		<fr-icon icon="CI"/>
+		<canvas ref="canvas" id="canvas">
+		</canvas>
 	</section>
 </template>
 
 <script>
+
 	export default {
-		name: "playground"
+		name: "playground",
+		data() {
+			return {
+
+			}
+		},
+		methods: {
+
+		},
+		mounted() {
+
+		},
 	}
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+	canvas {
+		border: 1px solid black;
+	}
 </style>

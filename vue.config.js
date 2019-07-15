@@ -1,6 +1,10 @@
 const resolve = dir => require('path').join(__dirname, dir);
 
 module.exports = {
+	transpileDependencies: [
+		'vue-echarts',
+		'resize-detector'
+	],
 	publicPath: process.env.NODE_ENV === 'production'
 		? '/frog-admin/'
 		: '/',
@@ -10,12 +14,8 @@ module.exports = {
 	},
 
 	devServer: {
-		proxy: {
-			'/api1': {
-				target: 'http://172.16.10.37:8008/',
-				changeOrigin: true,
-			}
-		}
+		port: 9999,
+
 	},
 	runtimeCompiler: true
 };
