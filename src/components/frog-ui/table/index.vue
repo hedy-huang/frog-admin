@@ -1,13 +1,16 @@
 <template>
-	<div class="fr-table">
+	<div class="fr-table" :class="{'table-ellipsis-header':tableEllipsisHeader}">
 		<el-table :data="showData" v-bind="$attrs">
 			<el-table-column v-if="index" type="index" align="center" :index="indexMethod"/>
-			<el-table-column v-for="column in columns" :prop="column" :label="column" :key="column"
+			<el-table-column v-for="column in columns" :prop="getColumnProp(column)" :label="getColumnName(column)"
+			                 :key="getColumnName(column)"
+			                 :width="column.width"
 			                 :show-overflow-tooltip="$attrs['show-overflow-tooltip']"
 			                 :align="$attrs.alignment"/>
 			<slot/>
 		</el-table>
-		<el-pagination :total="data?data.length:0" @current-change="currentChange" :page-size.sync="pageSize"
+		<el-pagination v-if="pagination" :total="data?data.length:0" @current-change="currentChange"
+		               :page-size.sync="pageSize"
 		               layout="prev,pager,next,jumper,total"/>
 	</div>
 </template>
@@ -30,6 +33,8 @@
 				type: Number,
 				default: 20,
 			},
+			pagination: Boolean,
+			tableEllipsisHeader: Boolean,
 		},
 		data() {
 			return {
@@ -38,7 +43,7 @@
 		},
 		computed: {
 			showData() {
-				return this.data ? this.data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize) : [];
+				return this.pagination ? (this.data ? this.data.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize) : []) : this.data;
 			}
 		},
 		methods: {
@@ -47,6 +52,19 @@
 			},
 			indexMethod(index) {
 				return index + 1 + (this.currentPage - 1) * this.pageSize;
+			},
+			getColumnName(column) {
+				return (typeof column === 'string' || column instanceof String) ? column : column.name;
+			},
+			getColumnProp(column) {
+				if (typeof column === 'string' || column instanceof String) {
+					return column
+				} else if (column.prop) {
+					return column.prop;
+				} else if (column.name) {
+					return column.name;
+				}
+				return '';
 			}
 		}
 	}
