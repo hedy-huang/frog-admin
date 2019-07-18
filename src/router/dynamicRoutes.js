@@ -1,4 +1,13 @@
+import configuration from './configuration'
+import productionManagement from './productionManagement'
+import baseSetting from './baseSetting'
+import processMonitor from './processManagement'
+
 const dynamicRoutes = [
+	configuration,
+	productionManagement,
+	baseSetting,
+	processMonitor,
 	{
 		path: '/test',
 		name: 'Test',

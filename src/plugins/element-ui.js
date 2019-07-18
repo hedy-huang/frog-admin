@@ -26,7 +26,8 @@ import {
 	Select,
 	Option,
 	Dialog,
-	Scrollbar
+	Scrollbar,
+	Form, FormItem, Tabs, TabPane, Divider, Collapse, CollapseItem, Checkbox, Row, Col
 } from 'element-ui'
 
 Vue.use(Button);
@@ -48,7 +49,16 @@ Vue.use(TimePicker);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Dialog);
-
+Vue.use(Form);
+Vue.use(FormItem);
+Vue.use(Tabs);
+Vue.use(TabPane);
+Vue.use(Divider);
+Vue.use(Collapse);
+Vue.use(CollapseItem);
+Vue.use(Checkbox);
+Vue.use(Row);
+Vue.use(Col);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
