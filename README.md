@@ -4,9 +4,11 @@
 
 Use:
 
-    element-ui 🛠 
+    Element-ui 🛠 
     
-    eCharts 🌈
+    ECharts 🌈
+    
+    VueRx 🎮
 
 ## Project setup
 ```
