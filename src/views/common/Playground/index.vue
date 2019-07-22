@@ -1,9 +1,11 @@
 <template>
-	<section id="playground">
-		<h1>Playground</h1>
-		<canvas ref="canvas" id="canvas">
-		</canvas>
-	</section>
+	<div>
+		<fr-table :data="enterpriseTableData">
+			<el-table-column slot="expand" type="expand"/>
+		</fr-table>
+		{{enterpriseTableData}}
+	</div>
+
 </template>
 
 <script>
@@ -17,6 +19,13 @@
 		},
 		methods: {
 
+		},
+		asyncComputed:{
+			async enterpriseTableData(){
+				let fd = new FormData();
+				fd.set('flag', 'allEnterprise');
+				return (await this.$axios.post('/api/Service/FactoryConfigService.ashx', fd)).data;
+			}
 		},
 		mounted() {
 

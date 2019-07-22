@@ -56,19 +56,8 @@
 					</el-form>
 					<span>历史记录</span>
 					<el-divider></el-divider>
-					<el-form :inline="true" :model="queryFormData">
-            <el-form-item label="开始时间">
-							<el-date-picker v-model="queryFormData.BeginTime" type="datetime" placeholder="选择开始时间">
-							</el-date-picker>
-						</el-form-item>
-						<el-form-item label="结束时间">
-							<el-date-picker v-model="queryFormData.EndTime" type="datetime" placeholder="选择结束时间">
-							</el-date-picker>
-						</el-form-item>
-						<el-form-item>
-							<el-button @click="getPlateOfflineHistoryData">搜索</el-button>
-						</el-form-item>
-					</el-form>
+					<fr-date-time-picker v-model="date"/>
+<!--					<time-query-form :queryFormData="queryFormData" @query="getPlateOfflineHistoryData"></time-query-form>-->
 					<el-table :data="getPageTableData(plateOfflineTableData)">
 						<el-table-column prop="MaterialNo" label="物料编码"></el-table-column>
 						<el-table-column prop="MaterialTagNo" label="物料标签"></el-table-column>
@@ -185,10 +174,14 @@
 </template>
 
 <script>
+	import TimeQueryForm from "@/views/common/commonComponent/timeQueryForm";
+	import FrDateTimePicker from "../../components/frog-ui/dateTimePicker/dateTimePicker";
 	export default {
 		name: "plateOffline",
+		components:{FrDateTimePicker, TimeQueryForm},
 		data(){
 			return {
+				date:[new Date(),new Date()],
 				tabName:"verify",
 				currentPage:1,
 				pageSize:10,
@@ -235,24 +228,10 @@
 				this.currentPage=1;
 			},
 			getPlateOfflineHistoryData(){
-         if (!this.queryFormData.BeginTime){
-					 this.$message({
-						 type: 'warning',
-						 message: '请选择开始时间！'
-					 });
-					 return;
-				 }
-				if (!this.queryFormData.EndTime){
-					this.$message({
-						type: 'warning',
-						message: '请选择结束时间！'
-					});
-					return;
-				}
 				let fd = new FormData();
 				fd.set('flag', 'getPlateOfflineHistory');
-				fd.set('beginTime',this.dateFormat(this.queryFormData.BeginTime));
-				fd.set('endTime',this.dateFormat(this.queryFormData.EndTime));
+				fd.set('beginTime',this.common.datetimeFormat(this.queryFormData.BeginTime));
+				fd.set('endTime',this.common.datetimeFormat(this.queryFormData.EndTime));
 				this.$axios.post('/api/Service/TraceabilityObjectService.ashx', fd).then(res => {
 					this.plateOfflineTableData = res.data;
 				})
@@ -471,10 +450,10 @@
 			getShiftInfo(){
 				let fd = new FormData();
 				fd.set('flag', 'getShiftInfoBySearchTime');
-				fd.set('searchTime',this.dateFormat(new Date()));
+				fd.set('searchTime',this.common.datetimeFormat(new Date()));
 				this.$axios.post('/api/Service/ShiftInfoService.ashx', fd).then(res => {
-					this.queryFormData.BeginTime=res.data.ShiftBegTime;
-					this.queryFormData.EndTime=res.data.ShiftEndTime;
+					this.date[0]=res.data.ShiftBegTime;
+					this.date[1]=res.data.ShiftEndTime;
 				})
 			},
 			reasonChildrenLoad(tree, treeNode, resolve){
@@ -551,19 +530,8 @@
 			getPageTableData(tableData){
 			return 	tableData? tableData.slice((this.currentPage - 1) * this.pageSize, this.currentPage * this.pageSize) : [];
 			},
-			dateFormat(formatDate) {
-				if (formatDate == null || formatDate == "") return "";
-				let date = new Date(formatDate);
-				let Y = date.getFullYear();
-				let M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-				let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-				let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-				let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-				let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-				return Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
-			},
 			columnDateFormat(row, column, cellValue) {
-				return this.dateFormat(cellValue);
+				return this.common.datetimeFormat(cellValue);
 			},
 		}
 	}

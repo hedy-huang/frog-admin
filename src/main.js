@@ -14,6 +14,8 @@ import {jumpTo} from '@/utils/routerUtils'
 import commonPlugin from '@/plugins/common'
 import VueRx from 'vue-rx'
 
+import commonFunction from './views/common/commonFunction/common.js'
+Vue.prototype.common = commonFunction
 
 Vue.config.productionTip = false;
 

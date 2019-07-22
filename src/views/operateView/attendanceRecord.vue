@@ -1,18 +1,6 @@
 <template>
 	<div>
-		<el-form :inline="true" :model="queryFormData">
-			<el-form-item label="开始时间">
-				<el-date-picker v-model="queryFormData.BeginTime" type="datetime" placeholder="选择开始时间">
-				</el-date-picker>
-			</el-form-item>
-			<el-form-item label="结束时间">
-				<el-date-picker v-model="queryFormData.EndTime" type="datetime" placeholder="选择结束时间">
-				</el-date-picker>
-			</el-form-item>
-			<el-form-item>
-				<el-button>查询</el-button>
-			</el-form-item>
-		</el-form>
+		<time-query-form :queryFormData="queryFormData" @query=""></time-query-form>
 		<el-button style="float: right" slot="reference" @click="operatorClockInPop">打卡</el-button>
 		<el-table :data="operatorClockInTableData">
 		</el-table>
@@ -56,8 +44,10 @@
 </template>
 
 <script>
+	import TimeQueryForm from "@/views/common/commonComponent/timeQueryForm";
 	export default {
 		name: "attendanceRecord",
+		components:{TimeQueryForm},
 		data() {
 			return {
 				shiftCodeData:[{ "ID": "01", "Display": "白班" }, { "ID": "02", "Display": "夜班" }],
@@ -84,7 +74,7 @@
 			getShiftInfo(){
 				let fd = new FormData();
 				fd.set('flag', 'getShiftInfoBySearchTime');
-				fd.set('searchTime',this.dateFormat(new Date()));
+				fd.set('searchTime',this.common.datetimeFormat(new Date()));
 				this.$axios.post('/api/Service/ShiftInfoService.ashx', fd).then(res => {
 					this.queryFormData.BeginTime=res.data.ShiftBegTime;
 					this.queryFormData.EndTime=res.data.ShiftEndTime;
@@ -100,17 +90,7 @@
 
 			},
 
-			dateFormat(formatDate) {
-				if (formatDate == null || formatDate == "") return "";
-				let date = new Date(formatDate);
-				let Y = date.getFullYear();
-				let M = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-				let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-				let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
-				let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-				let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-				return Y + "-" + M + "-" + D + " " + h + ":" + m + ":" + s;
-			},
+
 		}
 	}
 </script>
