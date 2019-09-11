@@ -27,7 +27,20 @@ import {
 	Option,
 	Dialog,
 	Scrollbar,
-	Form, FormItem, Tabs, TabPane, Divider, Collapse, CollapseItem, Checkbox, Row, Col
+	Form,
+	FormItem,
+	Tabs,
+	TabPane,
+	Divider,
+	Collapse,
+	CollapseItem,
+	Checkbox,
+	Row,
+	Col,
+	Tree,
+	InputNumber,
+	ButtonGroup,
+	Link, Switch, Popover
 } from 'element-ui'
 
 Vue.use(Button);
@@ -59,6 +72,12 @@ Vue.use(CollapseItem);
 Vue.use(Checkbox);
 Vue.use(Row);
 Vue.use(Col);
+Vue.use(Tree);
+Vue.use(InputNumber);
+Vue.use(ButtonGroup);
+Vue.use(Link);
+Vue.use(Switch);
+Vue.use(Popover);
 
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

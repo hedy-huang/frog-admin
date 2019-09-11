@@ -1,6 +1,6 @@
 <template>
 	<div class="fr-table" :class="{'table-ellipsis-header':tableEllipsisHeader}">
-		<el-table :data="showData" v-bind="$attrs">
+		<el-table :data="showData" v-bind="$attrs" v-on="$listeners">
 			<slot name="expand"></slot>
 			<el-table-column v-if="index" type="index" align="center" :index="indexMethod"/>
 			<el-table-column v-for="column in columns" :prop="getColumnProp(column)" :label="getColumnName(column)"

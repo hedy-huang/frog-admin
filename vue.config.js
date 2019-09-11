@@ -6,8 +6,8 @@ module.exports = {
 		'resize-detector'
 	],
 	publicPath: process.env.NODE_ENV === 'production'
-		? '/frog-admin/'
-		: '/',
+		? './'
+		: './',
 	chainWebpack: (config) => {
 		config.resolve.alias
 			.set('@', resolve('src'))
@@ -15,13 +15,20 @@ module.exports = {
 
 	devServer: {
 		proxy: {
-			'/api': {
-				target: 'http://localhost:8002',
+			'/mes': {
+				target: 'http://172.16.10.242:8003',
 				changeOrigin: true,
 				pathRewrite: {
-					'^/api': '',
+					'^/mes': '',
 				}
-			}
+			},
+			'/webApi': {
+				target: 'http://172.16.10.242:8100',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/webApi': '',
+				}
+			},
 		},
 		port: 9999,
 
